@@ -47,5 +47,12 @@ namespace JwtAuth.Controllers
     {
       return Ok("You are authenticated.");
     }
+
+    [Authorize(Roles = "Admin")] // to add more than one role, use comma separated values -> [Authorize(Roles = "Admin, User")]
+    [HttpGet("admin-only")]
+    public IActionResult AdminOnlyEndPoint()
+    {
+      return Ok("You are authenticated as an admin.");
+    }
   }
 }

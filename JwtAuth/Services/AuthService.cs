@@ -45,6 +45,7 @@ namespace JwtAuth.Services
 
       user.Username = request.Username;
       user.PasswordHash = hashedPassword;
+      user.Role = "User";
 
       context.Users.Add(user);
 
@@ -58,10 +59,11 @@ namespace JwtAuth.Services
       var claims = new List<Claim>
       {
         new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-        new Claim(ClaimTypes.Name, user.Username)
+        new Claim(ClaimTypes.Name, user.Username),
+        new Claim(ClaimTypes.Role, user.Role)
       };
 
-      var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("Jwt:Key")));
+      var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("Jwt:Key")!));
 
       var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
 
